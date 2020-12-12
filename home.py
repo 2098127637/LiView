@@ -38,13 +38,14 @@ class homePage(Ui_MainWindow):
 
         self.TopLab =titleBar(self.homeBox)
         self.TopLab.window =self
+        #self.TopLab.backcolor =self.logo[0]
         self.TopLab.setGeometry(0, 0, self.width(), 60)
-        self.TopLab.setStyleSheet('background-color:#FF6666')
+        #self.TopLab.initialization()
+        #self.TopLab.setStyleSheet('background-color:#FF6666')
         #self.TopLab.setMaximumHeight(60)
         #self.TopLab.setMinimumHeight(20)
-        self.TopLabP = self.TopLab.height() + self.y()
 
-
+        '''
         self.LogoLab = QLabel('图片', self.homeBox)
         self.LogoLab.setGeometry(15, 0, 120, 60)
         LogoLab_p = QPixmap()
@@ -52,7 +53,8 @@ class homePage(Ui_MainWindow):
         self.LogoLab.setPixmap(LogoLab_p)
         self.LogoLab.setScaledContents(True)
         #self.LogoLab.setMaximumHeight(40)
-        #self.LogoLab.setMinimumHeight(20)
+        #self.LogoLab.setMinimumHeight(20)'''
+        self.TopLabP = self.TopLab.height() + self.y()
 
 
         self.advertisementLab = QLabel(self.homeBox)
@@ -68,7 +70,7 @@ class homePage(Ui_MainWindow):
         data = self.data
 
         self.TopLab.resize(self.width(), 60)
-        self.LogoLab.resize(140,60)
+        #self.LogoLab.resize(140,60)
 
         '''self.TopLab.resize(self.width(), int(self.height() * 0.08))
         self.LogoLab.resize(int(self.height() * 0.08), int(self.height() * 0.08))'''
