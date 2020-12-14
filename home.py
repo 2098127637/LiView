@@ -36,7 +36,6 @@ class homePage(Ui_MainWindow):
         #self.homeBox.resize()
         self.homeBox.setGeometry(0,60,QApplication.desktop().width(), QApplication.desktop().height())
 
-
         self.advertisementLab = QLabel(self.homeBox)
         self.advertisementLab.setGeometry(0, 0, self.width(), int(self.width() * 0.45))
         advertisementLab_p = QPixmap()

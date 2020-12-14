@@ -194,6 +194,7 @@ class clickLabel(QtWidgets.QLabel):
 
     def __init__(self, parent=None):
         super(clickLabel, self).__init__(parent)
+        self.arg = ''
 
     def mousePressEvent(self, event):
         '''
@@ -203,8 +204,10 @@ class clickLabel(QtWidgets.QLabel):
         '''
         try:
             if event.buttons() == QtCore.Qt.LeftButton:  # 左键按下
-                pass
-                self.function()
+                if self.arg == '':
+                    self.function()
+                else:
+                    self.function(self.arg)
         except Exception as e:
             print(e)
 
@@ -214,60 +217,37 @@ class scrollBox(QGroupBox):
         super(scrollBox, self).__init__(parent)
         self.window = QtWidgets
 
-    def load(self,listpoint):
-        #data = self.data
-        a = int((self.width() - 20) / 3)    #宽
-        b = 0   #x方向距离
-        c = listpoint#self.Lab.y() + self.Lab.height() + 10   #y方向上的距离
-        d = 1   #所在行数
-        i = 0   #生成组件的编号
-        for img in self.data:
-            if d <= 3:
-                pass
-            else:
-                c = c + int(a * 0.2) + 5
-                d = 1
-                b = 0
-            exec('self.sourceG%s = QGroupBox(self)' % i)
-            exec('self.sourceG%s.setGeometry(%s,%s,%s,%s)' % (i, b, c, a, int(a * 0.2)))
-            exec('self.sourceG%s.setFixedHeight(52)' % i)
-            b = b + a + 10
-            d = d + 1
-            exec('''if self.sourceG%s.y() + self.sourceG%s.height()>= self.height():
-                                        self.resize(self.width(),self.height()+52)''' % (i, i))
-            '''p = QPixmap()
-            p.loadFromData(img)
-            exec('self.tp%s = QLabel(self.sourceG%s)' % (i, i))
-            exec('self.tp%s.setGeometry(0,0,self.sourceG%s.width(),self.sourceG%s.height())' % (i, i, i))
-            exec('self.tp%s.setPixmap(p)' % i)
-            exec('self.tp%s.setScaledContents(True)' % i)'''
-            i = i + 1
+
     moveDown = 0
 
     def wheelEvent(self, event):
         UnitLength = 40  # 每次滚动的像素
         angle = event.angleDelta() / 8  # 返回QPoint对象，为滚轮转过的数值，单位为1/8度
         angleY = angle.y()  # 竖直滚过的距离
-        if angleY > 0:
-            if self.y() <= 60:#
-                if self.y() + UnitLength <= 60:
-                    self.move(0, self.y() + UnitLength)
-                    self.moveDown = self.moveDown - 40
+        if self.window.pageTage == 'home':
+            if angleY > 0:
+                if self.y() <= 60:  #
+                    if self.y() + UnitLength <= 60:
+                        self.move(0, self.y() + UnitLength)
+                        self.moveDown = self.moveDown - 40
+                    else:
+                        self.move(0, 60)
+                        self.moveDown - 40
+                        # 有一点小瑕疵，可能多减那么一点点
                 else:
-                    self.move(0, 60)
-                    self.moveDown - 40
-                    #有一点小瑕疵，可能多减那么一点点
-            else:
-                pass
-        else:  # 向下滚
-            if self.height() + self.y() > self.window.height() - 10 and self.moveDown < self.lenth:
+                    pass
+            else:  # 向下滚
+                if self.height() + self.y() > self.window.height() - 10 and self.moveDown < self.lenth:
+                    self.move(0, self.y() - UnitLength)
+                    self.moveDown = self.moveDown + 40
+                    # print(self.moveDown)
+                else:
+                    pass
+        elif self.window.pageTage == 'synopsis':
+            if angleY > 0:
+                self.move(0, self.y() + UnitLength)
+            else:  # 向下滚
                 self.move(0, self.y() - UnitLength)
-                self.moveDown = self.moveDown + 40
-                #print(self.moveDown)
-            else:
-                pass
-                # print('到底了！')
-            # print("鼠标滚轮下滚")
 
 class sourceListBox(QGroupBox):
     '''
@@ -338,6 +318,8 @@ class sourceListBox(QGroupBox):
             exec('self.replace_openlogo = self.lab_openlogo%s' % i)
             self.replace_openlogo.setGeometry(int(self.a.width()*0.85), int(self.a.height()*0.1), int(self.a.height() * 0.2),
                                                 int(self.a.height() * 0.6))
+            self.replace_openlogo.function = self.openSource  #绑定事件
+            self.replace_openlogo.arg = i+1   #绑定参数,即所点击来源在数据库中的id，使synopis页面能够进行初始化加载
             replace_openlogoP = QPixmap()
             replace_openlogoP.loadFromData(self.openLogo[0][0])
             self.replace_openlogo.setPixmap(replace_openlogoP)
@@ -359,6 +341,12 @@ class sourceListBox(QGroupBox):
             self.lastHight = 2 * self.boxHeight
         else:
             self.lastHight = c + self.boxHeight
+
+
+    def openSource(self,id):
+        self.window.synopsisInitialization(id)
+        self.window.pageTage = 'synopsis'
+        self.window.PageSwitching()
 
 
 

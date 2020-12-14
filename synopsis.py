@@ -19,5 +19,8 @@ class synopsisPage(Ui_MainWindow):
         self.synopsisUI()
 
     def synopsisUI(self):
-        self.synopsisBox.resize(QApplication.desktop().width(), QApplication.desktop().height())
-        self.synopsisBox.setStyleSheet('background-color:rgb(255, 0, 0);border-radius: 0px; color: rgb(255, 255, 255);')
+        self.homeBox.setGeometry(0,60,QApplication.desktop().width(), QApplication.desktop().height())
+        self.synopsisBox.setStyleSheet('background-color:#FF6666')
+
+    def synopsisInitialization(self,SourceID):
+        print(SourceID)

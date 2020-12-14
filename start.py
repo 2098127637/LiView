@@ -22,15 +22,19 @@ class CallPage(homePage,synopsisPage):
         self.PageSwitching()
 
     def PageSwitching(self):
+        '''
+        切换页面
+        :return:
+        '''
         for i in self.pageList:
             if i != self.pageTage:
                 exec('self.hiddenPage = self.%sBox'%i)
                 self.hiddenPage.setVisible(False)
                 self.hiddenPage.lower()
-
-        exec('self.displayedPage = self.%sBox' % self.pageTage)
-        self.displayedPage.setVisible(True)
-        self.displayedPage.raise_()
+            else:
+                exec('self.displayedPage = self.%sBox' % self.pageTage)
+                self.displayedPage.setVisible(True)
+                self.displayedPage.raise_()
         self.TopLab.raise_() #标题栏永远是最上层
 
 
