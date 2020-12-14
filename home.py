@@ -26,16 +26,9 @@ class homePage(Ui_MainWindow):
         conn = sqlite3.connect('I:\\amadeus\\LiView\\userData\\sql\\spider.db')
         c = conn.cursor()
         #c.execute('SELECT logo FROM spider')
-        c.execute('SELECT logo FROM spider;')
-        self.spiderLogo = c.fetchall()  #网站logo
-        c.execute('SELECT colorPicture FROM spider;')#显示的彩图
-        self.spiderPicture = c.fetchall()
-        c.execute('SELECT authorLogo FROM spider;') #作者logo
-        self.authorLogo = c.fetchall()
+
         c.execute('SELECT openLogo FROM sys;')  # 打开图标
         self.openLogo = c.fetchall()
-        c.execute('SELECT logo FROM sys ')  #应用LiView logo
-        self.logo = c.fetchone()
         c.execute('SELECT TopPoster FROM sys ')     #顶层海报背景图
         self.TopPoster = c.fetchone()
         c.close()
@@ -55,7 +48,7 @@ class homePage(Ui_MainWindow):
         self.source = sourceListBox(self.homeBox)
         self.source.move(0,self.advertisementLab.height() +self.advertisementLab.y())
         self.source.window =self
-        self.source.load(self.spiderLogo,self.spiderPicture,self.authorLogo,self.openLogo)    #加载来源信息
+        self.source.load()    #加载来源信息
         self.homeBox.lenth = self.source.lastHight + self.advertisementLab.height() + 60-self.height()      #限制homeBox能向下滚动的最大距离
         self.homeBox.resize(self.width(),self.source.height())      #增加homeBox的高度
 

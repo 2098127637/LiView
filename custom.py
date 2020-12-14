@@ -42,17 +42,8 @@ class titleBar(QGroupBox):
         result = []
         '''
         res = rescource()
-        res.information = [['logo', 'search', 'searchBackground', 'setting', 'minimize', 'FullScreen', 'close'],['sys', 'sys', 'sys', 'sys', 'sys', 'sys', 'sys']]
-        res.initialization()
-        self.logo = res.result[0]
-        self.search = res.result[1]
-        self.searchBackground = res.result[2]
-        self.setting = res.result[3]
-        self.minimizeApp = res.result[4]
-        self.FullScreen = res.result[5]
-        self.closeApp = res.result[6]
-        res.close()
-
+        res.ParentComponent = self      #绑定本身为res父组件，
+        res.titleBarRes()       #获取标题栏所需的ui元素
 
     def UI(self):
 
@@ -65,7 +56,7 @@ class titleBar(QGroupBox):
         self.LogoLab = QLabel(self)
         self.LogoLab.setGeometry(15, 0, 120, self.height())
         LogoLab_p = QPixmap()
-        LogoLab_p.loadFromData(self.logo)
+        LogoLab_p.loadFromData(self.logo[0])
         self.LogoLab.setPixmap(LogoLab_p)
         self.LogoLab.setScaledContents(True)
 
@@ -75,7 +66,7 @@ class titleBar(QGroupBox):
         self.searchButton.setGeometry(int(3 * self.height()), int(self.height() * 0.2), int(self.height() * 0.6),int(self.height() * 0.6))
         #加载图片
         searchButton_p = QPixmap()
-        searchButton_p.loadFromData(self.search)
+        searchButton_p.loadFromData(self.search[0])
         self.searchButton.setPixmap(searchButton_p)
         self.searchButton.setScaledContents(True)
 
@@ -85,7 +76,7 @@ class titleBar(QGroupBox):
         self.searchBackLab.setGeometry(int(3 * self.height()), int(self.height() * 0.2), int(self.height() * 0.6),int(self.height() * 0.6))
         #加载图片
         searchBackLab_p = QPixmap()
-        searchBackLab_p.loadFromData(self.searchBackground)
+        searchBackLab_p.loadFromData(self.searchBackground[0])
         self.searchBackLab.setPixmap(searchBackLab_p)
         self.searchBackLab.setScaledContents(True)
 
@@ -95,7 +86,7 @@ class titleBar(QGroupBox):
         self.settingButton.setGeometry(int(self.width() - 4 * self.height() * 0.5), int(self.height() * 0.25),int(self.height() * 0.5), int(self.height() * 0.5))
         #加载图片
         settingButton_p = QPixmap()
-        settingButton_p.loadFromData(self.setting)
+        settingButton_p.loadFromData(self.setting[0])
         self.settingButton.setPixmap(settingButton_p)
         self.settingButton.setScaledContents(True)
 
@@ -105,7 +96,7 @@ class titleBar(QGroupBox):
         self.minimizeWindow.setGeometry(int(self.width() - 3 * self.height() * 0.5), int(self.height() * 0.25),int(self.height() * 0.5), int(self.height() * 0.5))
         #加载图片
         minimizeWindow_p = QPixmap()
-        minimizeWindow_p.loadFromData(self.minimizeApp)
+        minimizeWindow_p.loadFromData(self.minimizeApp[0])
         self.minimizeWindow.setPixmap(minimizeWindow_p)
         self.minimizeWindow.setScaledContents(True)
 
@@ -116,7 +107,7 @@ class titleBar(QGroupBox):
         self.setMaxWindow.setGeometry(int(self.width()-2*self.height()*0.5), int(self.height()*0.25), int(self.height()*0.5), int(self.height()*0.5))
         # 加载图片
         setMaxWindow_p = QPixmap()
-        setMaxWindow_p.loadFromData(self.FullScreen)
+        setMaxWindow_p.loadFromData(self.FullScreen[0])
         self.setMaxWindow.setPixmap(setMaxWindow_p)
         self.setMaxWindow.setScaledContents(True)
 
@@ -126,7 +117,7 @@ class titleBar(QGroupBox):
         self.closeWindow.setGeometry(int(self.width()-self.height()*0.5), int(self.height()*0.25), int(self.height()*0.5), int(self.height()*0.5))
         # 加载图片
         closeWindow_p = QPixmap()
-        closeWindow_p.loadFromData(self.closeApp)
+        closeWindow_p.loadFromData(self.closeApp[0])
         self.closeWindow.setPixmap(closeWindow_p)
         self.closeWindow.setScaledContents(True)
 
@@ -285,11 +276,18 @@ class sourceListBox(QGroupBox):
     def __init__(self, parent=None):
         super(sourceListBox, self).__init__(parent)
         self.window = QtWidgets
+        self.get_res()
 
     def UI(self):
         pass
 
-    def load(self,data,colorPicture,authorLogo,openLogo):
+    def get_res(self):
+        res = rescource()
+        res.ParentComponent = self  # 绑定本身为res父组件
+        res.sourceListBoxRes()  # 获取标题栏所需的ui元素
+
+
+    def load(self):
         self.columnsNum = 4
         self.boxHeight = 150
         a = int((self.window.width() - 20) / self.columnsNum)  # 宽
@@ -297,7 +295,7 @@ class sourceListBox(QGroupBox):
         c = 0  # self.Lab.y() + self.Lab.height() + 10   #y方向上的距离
         d = 1  # 所在行数
         i = 0  # 生成组件的编号
-        for img in data:
+        for img in self.spiderLogo:
             if d <= self.columnsNum:
                 pass
             else:
@@ -323,7 +321,7 @@ class sourceListBox(QGroupBox):
             exec('self.replace_color = self.lab_color%s' % i)
             self.replace_color.setGeometry(0,5,int(self.a.height()*0.7),self.a.height())
             replace_colorP = QPixmap()
-            replace_colorP.loadFromData(colorPicture[i][0])
+            replace_colorP.loadFromData(self.spiderPicture[i][0])
             self.replace_color.setPixmap(replace_colorP)
             self.replace_color.setScaledContents(True)
 
@@ -332,7 +330,7 @@ class sourceListBox(QGroupBox):
             exec('self.replace_authorlogo = self.lab_authorlogo%s' % i)
             self.replace_authorlogo.setGeometry(int(self.a.height()*0.7),0, int(self.a.height() * 0.4),int(self.a.height() * 0.4))
             replace_authorlogoP = QPixmap()
-            replace_authorlogoP.loadFromData(authorLogo[i][0])
+            replace_authorlogoP.loadFromData(self.authorLogo[i][0])
             self.replace_authorlogo.setPixmap(replace_authorlogoP)
             self.replace_authorlogo.setScaledContents(True)
 
@@ -341,7 +339,7 @@ class sourceListBox(QGroupBox):
             self.replace_openlogo.setGeometry(int(self.a.width()*0.85), int(self.a.height()*0.1), int(self.a.height() * 0.2),
                                                 int(self.a.height() * 0.6))
             replace_openlogoP = QPixmap()
-            replace_openlogoP.loadFromData(openLogo[0][0])
+            replace_openlogoP.loadFromData(self.openLogo[0][0])
             self.replace_openlogo.setPixmap(replace_openlogoP)
             self.replace_openlogo.setScaledContents(True)
             ''' p = QPixmap()
